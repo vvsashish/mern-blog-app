@@ -1,0 +1,23 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+header {
+  flex-shrink: 0;
+}
+main {
+  flex-grow: 1;
+  margin-top: 5rem;
+}
+footer {
+  flex-shrink: 0;
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+.nav-link.active {
+  color: #fff;
+  background-color: #48410a;
+}
