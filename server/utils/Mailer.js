@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 
 const sendSubscriptionEmail = (email) => {
   const mailOptions = {
-    from: "comicconfessions22@gmail.com",
+    from: process.env.REACT_APP_SENDER_EMAIL,
     to: email,
     subject: "Subscription Confirmation",
     text: "Thank you for subscribing to our blog!",
