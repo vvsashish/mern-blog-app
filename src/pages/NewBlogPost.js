@@ -1,23 +1,25 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 
 const CreateNewArticle = () => {
   const PROMPT =
     "You are a creative blog writer. write a 1000-word blog post about the title below. You can write anything you want, but it must be at least 50 words long. The title is: ";
   const [generating, setGenerating] = useState(false);
-  const [content, setContent] = useState("");
   const [formData, setFormData] = useState({
     id: "",
     title: "",
     content: "",
+    generatedContent: "",
+    isGenerated: false,
     date: new Date().toISOString().slice(0, 10),
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, checked, value } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue,
     }));
   };
 
@@ -49,16 +51,16 @@ const CreateNewArticle = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setContent(data.choices[0].message.content);
+        setFormData((prevData) => ({
+          ...prevData,
+          generatedContent: data.choices[0].message.content,
+        }));
         console.log("generated text", { data });
         setGenerating(false);
       })
       .catch(console.error);
   };
 
-  const postContent = useMemo(() => {
-    return content || formData.content;
-  }, [content, formData.content]);
   return (
     <Container>
       <h2>New Blog Post</h2>
@@ -73,23 +75,45 @@ const CreateNewArticle = () => {
             placeholder="what's on your mind"
           />
         </Form.Group>
-        <Form.Group controlId="content" className="mb-2">
-          <Form.Label className="font-medium">Content:</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={4}
-            name="content"
-            value={postContent}
-            onChange={handleChange}
-            placeholder="Text will be generated here (PS: this is a primitive text generator only for demo purpose)"
-          />
-          {generating && (
-            <p className="text-purple-700 my-1">Generating content...</p>
-          )}
-          <Button onClick={generateContent} type="button" className="mt-2">
-            Generate Content
-          </Button>
-        </Form.Group>
+        <Form.Check
+          type="switch"
+          id="custom-switch"
+          name="isGenerated"
+          label="Generate with AI"
+          checked={formData.isGenerated}
+          onChange={handleChange}
+        />
+        {formData.isGenerated ? (
+          <Form.Group controlId="content" className="mb-2">
+            <Form.Label className="font-medium">Generated Content:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={10}
+              name="content"
+              value={formData.generatedContent || ""}
+              onChange={handleChange}
+              placeholder="Text will be generated here (PS: this is a primitive text generator only for demo purpose)"
+            />
+            {generating && (
+              <p className="text-purple-700 my-1">Generating content...</p>
+            )}
+            <Button onClick={generateContent} type="button" className="mt-2">
+              Generate Content
+            </Button>
+          </Form.Group>
+        ) : (
+          <Form.Group controlId="content" className="mb-2">
+            <Form.Label className="font-medium">Content:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={10}
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              placeholder="Start typing..."
+            />
+          </Form.Group>
+        )}
         <Form.Group controlId="date" className="mb-2">
           <Form.Label className="font-medium">Date:</Form.Label>
           <Form.Control
@@ -99,7 +123,7 @@ const CreateNewArticle = () => {
             readOnly
           />
         </Form.Group>
-        <Button variant="warning" type="submit" className="mt-4">
+        <Button variant="warning" type="submit" className="my-4">
           Submit
         </Button>
       </Form>
