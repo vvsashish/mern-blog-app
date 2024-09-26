@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { ToastMessage } from "../components/ToastMessage";
 
 const CreateNewArticle = () => {
   const PROMPT =
     "You are a creative blog writer. write a 1000-word blog post about the title below. You can write anything you want, but it must be at least 50 words long. The title is: ";
   const [generating, setGenerating] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const [formData, setFormData] = useState({
     id: "",
     title: "",
@@ -25,7 +28,15 @@ const CreateNewArticle = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ formData });
+    // if (!formData.title || !formData.content || !formData.date) {
+    //   setToastMessage("Please fill out all required fields.");
+    //   setShowToast(true);
+    //   return;
+    // }
+    setToastMessage(
+      "Awesome!! Your post will be reviewed and posted on the blog."
+    );
+    setShowToast(true);
   };
 
   const generateContent = () => {
@@ -73,6 +84,7 @@ const CreateNewArticle = () => {
             value={formData.title}
             onChange={handleChange}
             placeholder="what's on your mind"
+            required
           />
         </Form.Group>
         <Form.Check
@@ -92,6 +104,7 @@ const CreateNewArticle = () => {
               name="content"
               value={formData.generatedContent || ""}
               onChange={handleChange}
+              required
               placeholder="Text will be generated here (PS: this is a primitive text generator only for demo purpose)"
             />
             {generating && (
@@ -110,6 +123,7 @@ const CreateNewArticle = () => {
               name="content"
               value={formData.content}
               onChange={handleChange}
+              required
               placeholder="Start typing..."
             />
           </Form.Group>
@@ -126,6 +140,11 @@ const CreateNewArticle = () => {
         <Button variant="warning" type="submit" className="my-4">
           Submit
         </Button>
+        <ToastMessage
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          message={toastMessage}
+        />
       </Form>
     </Container>
   );

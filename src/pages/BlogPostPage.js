@@ -6,7 +6,7 @@ import CommentsList from "../components/CommentsList";
 import AddCommentForm from "../components/AddCommentForm";
 import useUser from "../hooks/useUser";
 import articles from "./article-content";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Container } from "react-bootstrap";
 
 const ArticlePage = () => {
   const [articleInfo, setArticleInfo] = useState({
@@ -54,8 +54,8 @@ const ArticlePage = () => {
   }
 
   return (
-    <>
-      <Card>
+    <Container>
+      <Card className="mb-4">
         <Card.Body>
           <Card.Title>{article.title}</Card.Title>
           <div className="upvotes-section mb-3">
@@ -102,7 +102,7 @@ const ArticlePage = () => {
           <CommentsList comments={articleInfo.comments} />
         </Card.Body>
       </Card>
-    </>
+    </Container>
   );
 };
 
