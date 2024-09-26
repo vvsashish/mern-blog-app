@@ -12,7 +12,7 @@ const HomePage = () => (
               </Card.Title>
               <Card.Text>
                 Discover a world of insightful articles and creative content
-                generated with the help of advanced AI technology. This blog
+                generated with the help of generative AI technology. This blog
                 site offers a unique experience where you can explore a variety
                 of topics and enjoy well-crafted posts.
               </Card.Text>

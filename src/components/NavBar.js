@@ -1,21 +1,18 @@
 import { getAuth, signOut } from "firebase/auth";
 import useUser from "../hooks/useUser";
-import {
-  Container,
-  Dropdown,
-  DropdownButton,
-  Nav,
-  Navbar,
-} from "react-bootstrap";
+import { Container, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { ReactComponent as Logo } from "../logo.svg";
+import noUserImage from "../noUser.jpg";
 const NavBar = () => {
   const { user } = useUser();
   const navigate = useNavigate();
   return (
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
-      <Container>
-        <Navbar.Brand href="/">Comic Confessions</Navbar.Brand>
+      <Container className="mx-2">
+        <Navbar.Brand href="/">
+          <Logo className="animated-logo" />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Container className="d-flex justify-content-between">
@@ -46,27 +43,38 @@ const NavBar = () => {
               )}
               {user && (
                 <Container className="ml-2">
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    title={
-                      <>
-                        <i className="bi bi-person"></i>
-                      </>
-                    }
-                    variant="secondary"
-                  >
-                    <Dropdown.Item as={NavLink} to="/user-profile">
-                      Your Profile
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        signOut(getAuth());
-                        navigate("/");
-                      }}
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      as="div"
+                      id="dropdown-basic"
+                      className="p-0 border-0 bg-transparent"
                     >
-                      Logout
-                    </Dropdown.Item>
-                  </DropdownButton>
+                      <img
+                        src={user.photoURL ? user.photoURL : noUserImage}
+                        alt="avatar"
+                        className="rounded-circle"
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          marginRight: "10px",
+                        }}
+                      />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item as={NavLink} to="/user-profile">
+                        Your Profile
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          signOut(getAuth());
+                          navigate("/");
+                        }}
+                      >
+                        Logout
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </Container>
               )}
             </Nav>

@@ -19,7 +19,7 @@ function App() {
         <header>
           <MyNavbar />
         </header>
-        <main>
+        <main data-bs-theme="dark">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
