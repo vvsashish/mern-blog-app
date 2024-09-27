@@ -22,6 +22,6 @@ export const subscribe = (email) => async (dispatch) => {
     dispatch({ type: SET_SUBSCRIPTION_STATUS, payload: true });
     alert("Subscription successful");
   } catch (error) {
-    alert("Subscription failed");
+    alert("You've already subscribed");
   }
 };

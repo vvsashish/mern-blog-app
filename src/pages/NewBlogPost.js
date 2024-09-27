@@ -28,11 +28,6 @@ const CreateNewArticle = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (!formData.title || !formData.content || !formData.date) {
-    //   setToastMessage("Please fill out all required fields.");
-    //   setShowToast(true);
-    //   return;
-    // }
     setToastMessage(
       "Awesome!! Your post will be reviewed and posted on the blog."
     );

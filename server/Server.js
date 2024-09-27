@@ -8,10 +8,6 @@ import mongoose from "mongoose";
 import sendSubscriptionEmail from "./utils/Mailer.js";
 import Subscription from "./models/Subscription.js";
 
-// import { fileURLToPath } from "url";
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
 const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
