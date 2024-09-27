@@ -7,13 +7,22 @@ import { db, connectToDb } from "./db.js";
 import mongoose from "mongoose";
 import sendSubscriptionEmail from "./utils/Mailer.js";
 import Subscription from "./models/Subscription.js";
-
+import cors from "cors";
 const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
 });
 
 const app = express();
+const corsOptions = {
+  origin: "https://www.comicconfessions.com/", // Replace with your allowed origin
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../build")));
 

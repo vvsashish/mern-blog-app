@@ -12,6 +12,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "firebase": "^10.13.2",
@@ -35,12 +36,11 @@
     "nodemon": "^3.1.7"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "node server/index.js",
-    "client": "react-scripts start",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "react-scripts build",
-    "build:server": "node server/build.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "ssr": "npm run build && nodemon server/index.js"
   },
   "eslintConfig": {
     "extends": [
